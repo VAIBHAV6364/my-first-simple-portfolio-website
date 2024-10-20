@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Project</title>
+    <style>
+        .add-pro-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #26044a;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.add-pro-header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.add-pro-header nav ul {
+    list-style: none;
+    display: inline-block;
+    gap: 20px;
+    margin: 0 5px;
+}
+
+.add-pro-header nav ul li a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    text-transform: none;
+    font-size: 19px;
+    position: relative;
+    padding: 7px 13px;
+    border-radius: 3px;
+    background: #4d4d4d
+    /*padding-bottom: 5px;*/
+}
+
+.add-pro-header a.active{
+    background: #ad5b2b
+}
+
+.add-pro-header nav ul li a:hover {
+    color: #f39c12;
+    border-bottom: 2px solid #f39c12;
+}
+    </style>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="add-pro-header">
+        <h1>-- VAIBHAV R --</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html"><strong>Home</strong></a></li>
+                <li><a href="about.html"><strong>More About Me</strong></a></li>
+                <li><a href="projects.html"><strong>Projects</strong></a></li>
+                <li><a href="certifications.html"><strong>Certifications</strong></a></li>
+                <li><a href="skills.html"><strong>Skills</strong></a></li>
+                <li><a href="contact.html"><strong>Contact</strong></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Add New Project Form -->
+    <section class="add-project-page">
+        <h2>Add New Project</h2>
+        <form class="project-form">
+            <div class="form-group">
+                <label for="project-title">Project Title</label>
+                <input type="text" id="project-title" placeholder="Enter project title" required>
+            </div>
+
+            <div class="form-group">
+                <label for="project-description">Brief Description</label>
+                <textarea id="project-description" placeholder="Enter brief description" rows="3" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="project-detail-description">Detailed Description</label>
+                <textarea id="project-detail-description" placeholder="Enter detailed description" rows="5" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="project-tech">Technologies Used</label>
+                <input type="text" id="project-tech" placeholder="Enter technologies used" required>
+            </div>
+
+            <div class="form-group">
+                <label for="project-link">Project Link</label>
+                <input type="url" id="project-link" placeholder="Enter project URL" required>
+            </div>
+
+            <div class="form-group">
+                <label for="project-image1">Image URL 1</label>
+                <input type="text" id="project-image1" placeholder="Enter image URL" required>
+            </div>
+
+            <div class="form-group">
+                <label for="project-image2">Image URL 2</label>
+                <input type="text" id="project-image2" placeholder="Enter image URL" required>
+            </div>
+
+            <div class="form-group">
+                <label for="project-image3">Image URL 3</label>
+                <input type="text" id="project-image3" placeholder="Enter image URL" required>
+            </div>
+
+            <div class="form-group">
+                <label for="project-image4">Image URL 4</label>
+                <input type="text" id="project-image4" placeholder="Enter image URL" required>
+            </div>
+
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+
+        <button class="back-button" onclick="window.location.href='projects.html'">&larr; Back to Projects</button>
+    </section>
+
+    <!-- Firebase Initialization and JavaScript -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDNsCO8s4SC8_J9nX9f7vwHqoQ21-JopwY",
+            authDomain: "portfolio-backend-4af94.firebaseapp.com",
+            databaseURL: "https://portfolio-backend-4af94-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "portfolio-backend-4af94",
+            storageBucket: "portfolio-backend-4af94.appspot.com",
+            messagingSenderId: "655914268351",
+            appId: "1:655914268351:web:c7ae8447c161bd7ebd780a",
+            measurementId: "G-HV6ZHWE5MN"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Handle Add Project page redirection after login
+        document.querySelector('.project-form').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent form from submitting normally
+
+            // Get form values
+            const title = document.getElementById('project-title').value;
+            const briefDescription = document.getElementById('project-description').value;
+            const detailedDescription = document.getElementById('project-detail-description').value;
+            const technologies = document.getElementById('project-tech').value;
+            const link = document.getElementById('project-link').value;
+            const imageUrls = [
+                document.getElementById('project-image1').value,
+                document.getElementById('project-image2').value,
+                document.getElementById('project-image3').value,
+                document.getElementById('project-image4').value,
+            ]; // Array of image URLs
+
+            // Add project to Firebase
+            const projectRef = ref(database, 'projects');
+            push(projectRef, {
+                title: title,
+                description: briefDescription,
+                detailedDescription: detailedDescription,
+                technologies: technologies,
+                link: link,
+                images: imageUrls // Store the image URLs in the project object
+            }).then(() => {
+                alert('Project added successfully!');
+                window.location.href = 'projects.html'; // Redirect back to projects page
+            }).catch((error) => {
+                alert('Error adding project: ' + error.message);
+            });
+        });
+    </script>
+</body>
+</html>

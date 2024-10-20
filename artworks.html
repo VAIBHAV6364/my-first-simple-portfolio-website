@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artworks</title>
+    <style>
+        .artworks-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #26044a;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.artworks-header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.artworks-header nav ul {
+    list-style: none;
+    display: inline-block;
+    gap: 20px;
+    margin: 0 5px;
+}
+
+.artworks-header nav ul li a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    text-transform: none;
+    font-size: 19px;
+    position: relative;
+    padding: 7px 13px;
+    border-radius: 3px;
+    background: #4d4d4d
+    /*padding-bottom: 5px;*/
+}
+
+.artworks-header a.active{
+    background: #ad5b2b
+}
+
+.artworks-header nav ul li a:hover {
+    color: #f39c12;
+    border-bottom: 2px solid #f39c12;
+}
+
+.artworks-page{
+    z-index: 10;
+    position: relative;
+}
+
+/* Background Video */
+#bg-video {
+            position: fixed;     /* Make sure video stays fixed in the background */
+            top: 0;
+            left: 0;
+            width: 100vw;        /* Full viewport width */
+            height: 100vh;       /* Full viewport height */
+            object-fit: cover;   /* Ensure the video covers the entire background */
+            z-index: -1;         /* Push the video behind all other content */
+        }
+
+     /* Bold artwork title */
+     .artwork-title {
+            font-weight: bold;
+            font-size: 18px;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+
+    <!-- Background Video -->
+    <video autoplay muted loop id="bg-video">
+        <source src="images/ARTWORKS-BKGRD.mp4" type="video/mp4">
+    </video>
+    <!-- Header Section -->
+    <header class="artworks-header">
+        <h1>-- VAIBHAV R --</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html"><strong>Home</strong></a></li>
+                <li><a href="about.html" ><strong>More About Me</strong></a></li>
+                <li><a href="projects.html"><strong>Projects</strong></a></li>
+                <li><a href="certifications.html"><strong>Certifications</strong></a></li>
+                <li><a href="skills.html"><strong>Skills</strong></a></li>
+                <li><a href="contact.html"><strong>Contact</strong></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Artworks Page Content -->
+    <section class="artworks-page">
+        <h2>Artworks</h2>
+        <div class="artwork-categories"></div>
+
+        <!-- Button to Add New Artwork -->
+        <button class="add-artwork-button" onclick="window.location.href='login.html?redirect=add-artwork.html'">Add New Artwork</button>
+    </section>
+
+    <!-- Firebase Initialization -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+        import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDNsCO8s4SC8_J9nX9f7vwHqoQ21-JopwY",
+            authDomain: "portfolio-backend-4af94.firebaseapp.com",
+            databaseURL: "https://portfolio-backend-4af94-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "portfolio-backend-4af94",
+            storageBucket: "portfolio-backend-4af94.appspot.com",
+            messagingSenderId: "655914268351",
+            appId: "1:655914268351:web:c7ae8447c161bd7ebd780a",
+            measurementId: "G-HV6ZHWE5MN"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app); // Initialize Realtime Database
+
+        // Check if the user is authenticated
+        const isAuthenticated = sessionStorage.getItem('authenticated');
+
+        // Fetch and display artwork categories with thumbnails and delete buttons if authenticated
+        const categoriesRef = ref(database, 'artworks');
+        onValue(categoriesRef, (snapshot) => {
+            const categoriesList = document.querySelector('.artwork-categories');
+            categoriesList.innerHTML = ''; // Clear existing categories
+
+            snapshot.forEach((childSnapshot) => {
+                const category = childSnapshot.val();
+                const categoryId = childSnapshot.key; // Get the unique ID of the category
+
+                // Create an image button for each artwork category
+                const categoryDiv = document.createElement('div');
+                categoryDiv.classList.add('artwork-category');
+
+                const categoryImage = document.createElement('img');
+                categoryImage.src = category.thumbnail; // Use thumbnail image
+                categoryImage.alt = category.title;
+                categoryImage.classList.add('artwork-thumbnail');
+                categoryImage.onclick = function() {
+                    window.location.href = `artwork-display.html?categoryId=${categoryId}`; // Redirect to artwork display page
+                };
+
+                // Create the title text below the image
+                const categoryTitle = document.createElement('p');
+                categoryTitle.textContent = category.title;
+                categoryTitle.classList.add('artwork-title');
+
+                categoryDiv.appendChild(categoryImage); // Add image to div
+                categoryDiv.appendChild(categoryTitle); // Add title below the image
+
+                // If authenticated, show the delete button
+                if (isAuthenticated) {
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.classList.add('delete-button');
+                    deleteButton.onclick = function() {
+                        if (confirm(`Are you sure you want to delete "${category.title}"?`)) {
+                            deleteArtwork(categoryId);
+                        }
+                    };
+                    categoryDiv.appendChild(deleteButton); // Add delete button to div
+                }
+
+                categoriesList.appendChild(categoryDiv); // Append the category to the list
+            });
+        });
+
+        // Function to delete an artwork category
+        function deleteArtwork(categoryId) {
+            const categoryRef = ref(database, `artworks/${categoryId}`);
+            remove(categoryRef)
+            .then(() => {
+                alert('Artwork deleted successfully!');
+                window.location.reload(); // Reload the page to update the list
+            })
+            .catch((error) => {
+                alert('Error deleting artwork: ' + error.message);
+            });
+        }
+    </script>
+
+</body>
+</html>

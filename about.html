@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>More About Me</title>
+    <style>
+        .about-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #26044a;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.about-header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.about-header nav ul {
+    list-style: none;
+    display: inline-block;
+    gap: 20px;
+    margin: 0 5px;
+}
+
+.about-header nav ul li a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    text-transform: none;
+    font-size: 19px;
+    position: relative;
+    padding: 7px 13px;
+    border-radius: 3px;
+    background: #4d4d4d
+    /*padding-bottom: 5px;*/
+}
+
+.about-header a.active{
+    background: #ad5b2b
+}
+
+.about-header nav ul li a:hover {
+    color: #f39c12;
+    border-bottom: 2px solid #f39c12;
+}
+
+h2 {
+    color : white;
+    text-transform: uppercase;
+}
+
+p{
+    color:whitesmoke;
+}
+
+/* -------------------------------------------------------------------------------------------------------------------- */
+.details {
+            display: table;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            font-family: 'Lucida Console', Monaco, monospace;
+        }
+
+        .details-row {
+            display: table-row;
+        }
+
+        .details-cell {
+            display: table-cell;
+            padding: 10px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+            color: white;
+        }
+
+        .details-cell:first-child {
+            font-weight: bold;
+            width: 40%; /* You can adjust this percentage as needed */
+        }
+/*---------------------------------------------------------------------------------------------------------------------------------*/
+.about-page{
+    z-index: 2;
+}
+
+.back{
+    z-index: -2;
+    background-color: #111;
+}
+
+.ani-back{
+    background-color: #111;
+}
+.ani-back span{
+    position: fixed;
+    bottom: -180px;
+    height: 50px;
+    width: 50px;
+    z-index:0;
+    background-color: #18191f;
+    box-shadow: 0 0 50px #0072ff,
+                0 0 100px #0072ff,
+                0 0 150px #0072ff,
+                0 0 200px #0072ff;
+    animation: animate 10s linear infinite;
+}
+
+.ani-back span:nth-child(1){
+    left: 60px;
+    animation-delay: 0.6s;
+}
+
+.ani-back span:nth-child(2){
+    left: 10%;
+    animation-delay: 3s;
+    width: 60px;
+    height: 60px;
+}
+
+.ani-back span:nth-child(3) {
+	left: 20%;
+	animation-delay: 2s;
+}
+.ani-back span:nth-child(4) {
+	left: 30%;
+	animation-delay: 5s;
+	width: 80px;
+	height: 80px;
+}
+.ani-back span:nth-child(5) {
+	left: 40%;
+	animation-delay: 1s;
+}
+.ani-back span:nth-child(6) {
+	left: 50%;
+	animation-delay: 7s;
+}
+.ani-back span:nth-child(7) {
+	left: 60%;
+	animation-delay: 6s;
+	width: 100px;
+	height: 100px;
+}
+.ani-back span:nth-child(8) {
+	left: 70%;
+	animation-delay: 8s;
+}
+.ani-back span:nth-child(9) {
+	left: 80%;
+	animation-delay: 6s;
+	width: 90px;
+	height: 90px;
+}
+.ani-back span:nth-child(10) {
+	left: 90%;
+	animation-delay: 4s;
+}
+
+@keyframes animate {
+	0% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+	80% {
+		opacity: .7;
+	}
+	100% {
+		transform: translateY(-800px) rotate(360deg);
+		opacity: 0;
+	}
+}
+
+
+    </style>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+
+
+<body>
+    <!-- Header Section -->
+    <header class="about-header">
+        <h1>-- VAIBHAV R --</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html"><strong>Home</strong></a></li>
+                <li><a href="about.html" class="active"><strong>More About Me</strong></a></li>
+                <li><a href="projects.html"><strong>Projects</strong></a></li>
+                <li><a href="certifications.html"><strong>Certifications</strong></a></li>
+                <li><a href="skills.html"><strong>Skills</strong></a></li>
+                <li><a href="contact.html"><strong>Contact</strong></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- More About Me Content -->
+<div class="back">
+<div class="ani-back" >
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    
+  
+     <section class="about-page">
+        <h2><strong>PERSONAL DETAILS</strong></h2>
+        <div class="details">
+            <div class="details-row">
+                <div class="details-cell">Name:</div>
+                <div class="details-cell">Vaibhav R</div>
+            </div>
+            <div class="details-row">
+                <div class="details-cell">Age:</div>
+                <div class="details-cell">20</div>
+            </div>
+            <div class="details-row">
+                <div class="details-cell">Date of Birth:</div>
+                <div class="details-cell">October 4, 2004</div>
+            </div>
+            <div class="details-row">
+                <div class="details-cell">Gender:</div>
+                <div class="details-cell">Male</div>
+            </div>
+            <div class="details-row">
+                <div class="details-cell">City:</div>
+                <div class="details-cell">Bengaluru</div>
+            </div>
+            <div class="details-row">
+                <div class="details-cell">Languages:</div>
+                <div class="details-cell">English, Kannada, Hindi</div>
+            </div>
+            <div class="details-row">
+                <div class="details-cell">Qualifications:</div>
+                <div class="details-cell">B.E in Information Science and Engineering</div>
+            </div>
+        </div>
+
+        <!-- ME IN A NUTSHELL Section -->
+        <section class="nutshell-container">
+            <h2>ME IN A NUTSHELL</h2>
+            <p id="typed-text" class="typewriter"><strong></strong></p> <!-- Empty paragraph for typewriter effect -->
+        </section>
+
+        <!-- Circular Buttons for Experience, Education, Artwork, and Interests -->
+        <div class="about-buttons">
+            <div class="button experience" onclick="window.location.href='experience.html'">
+                <p><strong>Experience</strong></p>
+            </div>
+            <div class="button education" onclick="window.location.href='education.html'">
+                <p><strong>Education</strong></p>
+            </div>
+            <div class="button artwork" onclick="window.location.href='artworks.html'">
+                <p><strong>Artwork</strong></p>
+            </div>
+
+            <div class="button interests">
+                <p><strong>INTERESTS</strong></p>
+            </div>
+        </div>
+      </section>
+    </div>
+    </div>
+    <script>
+        // Typewriter effect for the text
+        const text = `I’m someone who appreciates the simple joys in life—whether it’s enjoying a quiet moment alone or immersing myself in a creative pursuit. 
+        I’m a laid-back person who finds joy in life’s simpler moments. I take pride in being an easygoing person, someone who enjoys giving myself thoughtful moments and savoring the small things. 
+        My curiosity leads me to observe the world deeply, be it the most complex ideas or the simplest details, always seeking to understand the 'why' behind them.
+        
+        While I might appear introverted at first, I value relationships deeply once I feel a connection. I respect the bonds I have and make sure to nurture them with thoughtfulness. 
+        I thrive when I'm given a task or responsibility to complete, often excelling more when assigned a project rather than generating ideas from scratch. 
+        Punctuality and valuing time are important traits I hold, as I believe in making the most of every moment. find joy in driving and riding, especially on journeys where the trip itself feels more meaningful than reaching the destination. 
+        I also enjoy spacing out my tasks with smaller, frequent breaks—it helps me stay relaxed and focused.
+        
+        Others see me as dependable, supportive, and someone who listens before offering thoughts or solutions. Whether it’s enjoying a peaceful moment of reflection or exploring new interests, I try to stay balanced and grounded in everything I do.
+        
+        I have a deep appreciation for visual storytelling, whether it's through movies, documentaries, TV shows, or even YouTube videos. I enjoy diving into different genres, from gripping dramas and insightful documentaries to light-hearted comedies and thought-provoking series.
+        Though I lean toward enjoying simpler experiences, I’m open to the occasional experimentation in different aspects of life, exploring new things as they come. Though I can enjoy occasional adventures, I’m happiest with smaller, meaningful experiences. 
+        I believe in staying grounded, supportive, and thoughtful in my relationships, always striving to maintain balance.`;
+        let index = 0;
+
+        function typeWriter() {
+            // Check if the current character index is less than the text length
+            if (index < text.length) {
+                // Add the current character to the typed text
+                document.getElementById("typed-text").innerHTML += text.charAt(index);
+                index++; // Move to the next character
+                // Use setTimeout to call typeWriter again after a short delay
+                setTimeout(typeWriter, 40); // Adjust speed here
+            }
+        }
+
+        window.onload = function() {
+            typeWriter(); // Start typing effect on page load
+        };
+    </script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details</title>
+    <style>
+        .project-details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #26044a;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.project-details-header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.project-details-header nav ul {
+    list-style: none;
+    display: inline-block;
+    gap: 20px;
+    margin: 0 5px;
+}
+
+.project-details-header nav ul li a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    text-transform: none;
+    font-size: 19px;
+    position: relative;
+    padding: 7px 13px;
+    border-radius: 3px;
+    background: #4d4d4d
+    /*padding-bottom: 5px;*/
+}
+
+.project-details-header a.active{
+    background: #ad5b2b
+}
+
+.project-details-header nav ul li a:hover {
+    color: #f39c12;
+    border-bottom: 2px solid #f39c12;
+}
+
+.project-details{
+        z-index: 10;
+        position: relative;
+    }
+
+     /* Background Video */
+     #bg-video {
+            position: fixed;     /* Make sure video stays fixed in the background */
+            top: 0;
+            left: 0;
+            width: 100vw;        /* Full viewport width */
+            height: 100vh;       /* Full viewport height */
+            object-fit: cover;   /* Ensure the video covers the entire background */
+            z-index: -1;         /* Push the video behind all other content */
+        }
+    </style>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+
+<!-- Background Video -->
+<video autoplay muted loop id="bg-video">
+    <source src="images/blue-red splits background.mp4" type="video/mp4">
+</video>
+
+    <!-- Header Section -->
+    <header class="project-details-header">
+        <h1>-- VAIBHAV R --</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html"><strong>Home</strong></a></li>
+                <li><a href="about.html"><strong>More About Me</strong></a></li>
+                <li><a href="projects.html" clss="active"><strong>Projects</strong></a></li>
+                <li><a href="certifications.html"><strong>Certifications</strong></a></li>
+                <li><a href="skills.html"><strong>Skills</strong></a></li>
+                <li><a href="contact.html"><strong>Contact</strong></a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- Project Details Section -->
+    <section class="project-details">
+        <h2 id="project-title">Project Title</h2>
+        <div id="project-images">
+            <img class="project-image" src="" alt="Project Image 1" style="max-width: 100%; display: none;">
+            <img class="project-image" src="" alt="Project Image 2" style="max-width: 100%; display: none;">
+            <img class="project-image" src="" alt="Project Image 3" style="max-width: 100%; display: none;">
+            <img class="project-image" src="" alt="Project Image 4" style="max-width: 100%; display: none;">
+        </div>
+        <p id="project-description"></p>
+        <p id="project-tech"></p>
+        <a id="project-link" href="#" target="_blank">View on GitHub</a>
+        <button onclick="window.history.back()">Back to Projects</button>
+    </section>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDNsCO8s4SC8_J9nX9f7vwHqoQ21-JopwY",
+            authDomain: "portfolio-backend-4af94.firebaseapp.com",
+            databaseURL: "https://portfolio-backend-4af94-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "portfolio-backend-4af94",
+            storageBucket: "portfolio-backend-4af94.appspot.com",
+            messagingSenderId: "655914268351",
+            appId: "1:655914268351:web:c7ae8447c161bd7ebd780a",
+            measurementId: "G-HV6ZHWE5MN"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Function to load project details
+        function loadProjectDetails(projectId) {
+            const projectRef = ref(database, 'projects/' + projectId);
+            get(projectRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const project = snapshot.val();
+                    document.getElementById('project-title').innerText = project.title;
+                    document.getElementById('project-description').innerText = project.detailedDescription;
+                    document.getElementById('project-tech').innerText = `Technologies: ${project.technologies}`;
+                    document.getElementById('project-link').setAttribute('href', project.link);
+
+                    // Load images
+                    const imageElements = document.querySelectorAll('.project-image');
+                    const images = project.images; // Assuming images are an array in the database
+                    images.forEach((img, index) => {
+                        if (imageElements[index]) {
+                            imageElements[index].src = img; // Set the image source
+                            imageElements[index].style.display = 'block'; // Show the image
+                        }
+                    });
+                } else {
+                    alert('No project found with this ID.');
+                }
+            }).catch((error) => {
+                console.error('Error loading project details:', error);
+            });
+        }
+
+        // Get project ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const projectId = urlParams.get('projectId');
+
+        if (projectId) {
+            loadProjectDetails(projectId);
+        }
+    </script>
+</body>
+</html>

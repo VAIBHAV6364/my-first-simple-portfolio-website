@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login to Add Skill</title>
+    <style>
+        .login-add-skill-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #26044a;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.login-add-skill-header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.login-add-skill-header nav ul {
+    list-style: none;
+    display: inline-block;
+    gap: 20px;
+    margin: 0 5px;
+}
+
+.login-add-skill-header nav ul li a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    text-transform: none;
+    font-size: 19px;
+    position: relative;
+    padding: 7px 13px;
+    border-radius: 3px;
+    background: #4d4d4d
+    /*padding-bottom: 5px;*/
+}
+
+.login-add-skill-header a.active{
+    background: #ad5b2b
+}
+
+.login-add-skill-header nav ul li a:hover {
+    color: #f39c12;
+    border-bottom: 2px solid #f39c12;
+}
+    </style>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <header class="login-add-skill-header">
+        <h1>-- VAIBHAV R --</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html"><strong>Home</strong></a></li>
+                <li><a href="about.html"><strong>More About Me</strong></a></li>
+                <li><a href="projects.html"><strong>Projects</strong></a></li>
+                <li><a href="certifications.html"><strong>Certifications</strong></a></li>
+                <li><a href="skills.html"><strong>Skills</strong></a></li>
+                <li><a href="contact.html"><strong>Contact</strong></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="login-page">
+        <h2>Login to Add Skill</h2>
+        <form id="login-add-skill-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter your username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+            </div>
+
+            <button type="submit" class="submit-button">Login</button>
+        </form>
+    </section>
+
+    <script>
+        document.getElementById('login-add-skill-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === 'Vaibhav R' && password === '20sc76*VAIBHAV') {
+                sessionStorage.setItem('authenticated', true);
+                window.location.href = 'add-skill.html';  // Redirect to Add Skill page after login
+            } else {
+                alert('Incorrect username or password.');
+            }
+        });
+    </script>
+</body>
+</html>

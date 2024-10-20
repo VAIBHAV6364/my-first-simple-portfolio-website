@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Artwork</title>
+    <style>
+        .add-artwork-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #26044a;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.add-artwork-header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.add-artwork-header nav ul {
+    list-style: none;
+    display: inline-block;
+    gap: 20px;
+    margin: 0 5px;
+}
+
+.add-artwork-header nav ul li a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    text-transform: none;
+    font-size: 19px;
+    position: relative;
+    padding: 7px 13px;
+    border-radius: 3px;
+    background: #4d4d4d
+    /*padding-bottom: 5px;*/
+}
+
+.add-artwork-header a.active{
+    background: #ad5b2b
+}
+
+.add-artwork-header nav ul li a:hover {
+    color: #f39c12;
+    border-bottom: 2px solid #f39c12;
+}
+    </style>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="add-artwork-header">
+        <h1>-- VAIBHAV R --</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html"><strong>Home</strong></a></li>
+                <li><a href="about.html" ><strong>More About Me</strong></a></li>
+                <li><a href="projects.html"><strong>Projects</strong></a></li>
+                <li><a href="certifications.html"><strong>Certifications</strong></a></li>
+                <li><a href="skills.html"><strong>Skills</strong></a></li>
+                <li><a href="contact.html"><strong>Contact</strong></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Add New Artwork Form -->
+    <section class="add-artwork-page">
+        <h2>Add New Artwork</h2>
+
+        <form class="artwork-form" action="" method="POST">
+            <!-- Title -->
+            <div class="form-group">
+                <label for="artwork-title">Artwork Title</label>
+                <input type="text" id="artwork-title" name="title" placeholder="Enter artwork title" required>
+            </div>
+
+            <!-- Thumbnail Image -->
+            <div class="form-group">
+                <label for="artwork-thumbnail">Thumbnail Image URL</label>
+                <input type="url" id="artwork-thumbnail" name="thumbnail" placeholder="Enter URL for thumbnail image" required>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group">
+                <label for="artwork-description">Description</label>
+                <textarea id="artwork-description" name="description" placeholder="Enter a description" rows="5" required></textarea>
+            </div>
+
+            <!-- Image URLs -->
+            <div class="form-group">
+                <label for="artwork-image1">Image 1 URL</label>
+                <input type="url" id="artwork-image1" name="image1" placeholder="Enter URL for image 1" required>
+            </div>
+            <div class="form-group">
+                <label for="artwork-image2">Image 2 URL (optional)</label>
+                <input type="url" id="artwork-image2" name="image2" placeholder="Enter URL for image 2">
+            </div>
+            <div class="form-group">
+                <label for="artwork-image3">Image 3 URL (optional)</label>
+                <input type="url" id="artwork-image3" name="image3" placeholder="Enter URL for image 3">
+            </div>
+            <div class="form-group">
+                <label for="artwork-image4">Image 4 URL (optional)</label>
+                <input type="url" id="artwork-image4" name="image4" placeholder="Enter URL for image 4">
+            </div>
+            <div class="form-group">
+                <label for="artwork-image5">Image 5 URL (optional)</label>
+                <input type="url" id="artwork-image5" name="image5" placeholder="Enter URL for image 5">
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+
+        <!-- Back to Artworks Button -->
+        <button class="back-button" onclick="window.location.href='artworks.html'">&larr; Back to Artworks</button>
+    </section>
+
+    <!-- Firebase Initialization and Form Handling -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDNsCO8s4SC8_J9nX9f7vwHqoQ21-JopwY",
+            authDomain: "portfolio-backend-4af94.firebaseapp.com",
+            databaseURL: "https://portfolio-backend-4af94-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "portfolio-backend-4af94",
+            storageBucket: "portfolio-backend-4af94.appspot.com",
+            messagingSenderId: "655914268351",
+            appId: "1:655914268351:web:c7ae8447c161bd7ebd780a",
+            measurementId: "G-HV6ZHWE5MN"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app); // Initialize Realtime Database
+
+        // Check if the user is authenticated
+        if (!sessionStorage.getItem('authenticated')) {
+            window.location.href = 'login.html'; // Redirect to login if not authenticated
+        }
+
+        // Handle form submission
+        document.querySelector('.artwork-form').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent form from submitting normally
+
+            // Get form values
+            const title = document.getElementById('artwork-title').value;
+            const thumbnail = document.getElementById('artwork-thumbnail').value;
+            const description = document.getElementById('artwork-description').value;
+            const image1 = document.getElementById('artwork-image1').value;
+            const image2 = document.getElementById('artwork-image2').value;
+            const image3 = document.getElementById('artwork-image3').value;
+            const image4 = document.getElementById('artwork-image4').value;
+            const image5 = document.getElementById('artwork-image5').value;
+
+            // Create a new artwork object
+            const newArtwork = {
+                title: title,
+                thumbnail: thumbnail, // Include thumbnail image
+                description: description,
+                image1: image1,
+                image2: image2,
+                image3: image3,
+                image4: image4,
+                image5: image5
+            };
+
+            // Save the new artwork to Firebase
+            const artworksRef = ref(database, 'artworks');
+            push(artworksRef, newArtwork)
+            .then(() => {
+                alert('Artwork added successfully!');
+                window.location.href = 'artworks.html'; // Redirect back to Artworks page
+            })
+            .catch((error) => {
+                alert('Error adding artwork: ' + error.message);
+            });
+        });
+    </script>
+
+</body>
+</html>
